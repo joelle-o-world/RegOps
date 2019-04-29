@@ -85,7 +85,7 @@ function whole(operand) {
   operand = autoBracket(new RegExp(operand).source)
   return new RegExp('^'+operand+'$')
 }
-function inital(operand) {
+function initial(operand) {
   operand = autoBracket(new RegExp(operand).source)
   return new RegExp('^'+operand)
 }
