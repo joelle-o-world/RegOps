@@ -57,7 +57,8 @@ function kleeneJoin(operand, seperator) {
 }
 
 function kleenePoliteList(...operands) {
-  operand = or(...operands)
+  if(operands.length > 1)
+    operand = or(...operands)
   return concat(
     optional(concat(kleeneJoin(operand,', '), ',? and ')),
     operand
