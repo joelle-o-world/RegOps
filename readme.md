@@ -11,10 +11,10 @@ Concatenate any number of regular expressions with space characters inbetween.
 Create a regular which matches any of the operand RegExp.
 
 ## optional(operand)
-Add a ? operator, making the operand optional.
+Add a `?` operator, making the operand optional.
 
 ## kleene(operand)
-Add a * operator, applying Kleene closure to the operand.
+Add a `*` operator, applying Kleene closure to the operand.
 
 
 ## kleeneSpaced(operand)
