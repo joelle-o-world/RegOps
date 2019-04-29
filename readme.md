@@ -38,5 +38,11 @@ Add non capturing brackets to the operand unless it is very simple.
 ## whole(operand)
 Add `^` and `$` at the beginning and end of the operand so it matches an entire string.
 
+## whole(operand)
+Add `^` at the beginning of the operand.
+
+## whole(operand)
+Add `$` at the end of the operand.
+
 ## capture(operand[, groupName])
 Include the operand in an (optionally named) capturing group.

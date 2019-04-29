@@ -85,6 +85,14 @@ function whole(operand) {
   operand = autoBracket(new RegExp(operand).source)
   return new RegExp('^'+operand+'$')
 }
+function inital(operand) {
+  operand = autoBracket(new RegExp(operand).source)
+  return new RegExp('^'+operand)
+}
+function terminal(operand) {
+  operand = autoBracket(new RegExp(operand).source)
+  return new RegExp(operand+'$')
+}
 
 function capture(operand, groupName) {
   if(operand.constructor == RegExp)
@@ -108,5 +116,7 @@ module.exports = {
   optionalConcatSpaced: optionalConcatSpaced,
   autoBracket: autoBracket,
   whole: whole,
+  initial: initial,
+  terminal: terminal,
   capture: capture,
 }
