@@ -1,71 +1,89 @@
-function sourcify(list) {
-  return list
-    .filter(item => item)
-    .map(item => item.constructor == RegExp ? item.source : item)
+/** Convert a list of convert regexs to their source strings. */
+function sourcify(list:(RegExp | String | null)[]):string[] {
+  return (list
+    .filter(item => item) as (RegExp|string)[]) // remove null items
+    .map(item => item instanceof RegExp ? item.source : item)
 }
 
-function bracket(str) {
+/** Put non-capturing brackets around a regex source string. */
+function bracket(str:string) {
   return "(?:" + str + ")"
 }
-function autoBracket(str) {
+
+/** If necessary, put non-capturing brackets around a regex source string. */
+function autoBracket(str:string) {
   if(/^[\w, ]*$/.test(str))
     return str
   else
     return bracket(str)
 }
 
-function concat(...operands) {
+/** Concatenate a list a of regular expressions. */
+function concat(...operands:(RegExp | string | null)[]) {
   return new RegExp(
     sourcify(operands)
       .map(autoBracket)
       .join("")
   )
 }
-function concatSpaced(...operands) {
+
+/** Concatenate a list of regular expressions with a single-space (' ') delimiter.*/
+function concatSpaced(...operands:(RegExp|string|null)[]) {
   return new RegExp(
     sourcify(operands)
       .map(autoBracket)
       .join(" ")
   )
 }
-function or(...operands) {
+
+/** Combine regular expressions with OR (|) operator. */
+function or(...operands:(RegExp|string|null)[]) {
   return new RegExp(
     sourcify(operands)
       .map(autoBracket)
       .join("|")
   )
 }
-function optional(operand) {
+
+/** Apply OPTIONAL (?) operator to a regular expressions. */
+function optional(operand:RegExp|string) {
   operand = new RegExp(operand).source
   operand = bracket(operand)
   return operand + "?"
 }
-function kleene(operand) {
+
+/** Apply Kleene closure (*) operator to a regular expression. */
+function kleene(operand:RegExp|string) {
   operand = new RegExp(operand).source
   operand = bracket(operand)
   return operand + "*"
 }
 
-function kleeneSpaced(operand) {
+/** Apply Kleene closure (*) operator to a regular expression, delimiting repetitions with a single-space (' ') */
+function kleeneSpaced(operand:RegExp|string) {
   return kleeneJoin(operand, ' ')
 }
-
-function kleeneJoin(operand, seperator) {
+/** Apply Kleene repetitions of a regular expression with some specified delimiter. */
+function kleeneJoin(operand:RegExp|string, delimiter:string) {
   operand = new RegExp(operand).source
-  seperator = new RegExp(seperator).source
-  return concat(operand, kleene(concat(seperator, operand)))
+  delimiter = new RegExp(delimiter).source
+  return concat(operand, kleene(concat(delimiter, operand)))
 }
 
-function kleenePoliteList(...operands) {
-  if(operands.length > 1)
-    operand = or(...operands)
+/** Create a "polite list" (form: X, X, X and X) using Kleene closure to allow any number of items. */
+function kleenePoliteList(...operands:(RegExp|string)[]) {
+  let operand = or(...operands)
   return concat(
     optional(concat(kleeneJoin(operand,', '), ',? and ')),
     operand
   )
 }
 
-function optionalConcatSpaced(stem, ...optionalAppendages) {
+/** Concatenate a list of regular expressions with optional (?) modifiers. */
+function optionalConcatSpaced(
+  stem:RegExp|string, 
+  ...optionalAppendages:(RegExp|string|null)[]
+) {
   stem = autoBracket(new RegExp(stem).source)
   optionalAppendages = sourcify(optionalAppendages)
     .map(a => autoBracket(a))
@@ -73,7 +91,11 @@ function optionalConcatSpaced(stem, ...optionalAppendages) {
   return concat(stem, ...optionalAppendages)
 }
 
-function kleeneConcatSpaced(stem, ...optionalAppendages) {
+/** Concatenate an item with itself any number of times (using kleene closure *) using a single-space (' ') as a delimiter. */
+function kleeneConcatSpaced(
+  stem:RegExp|string, 
+  ...optionalAppendages:(RegExp|string|null)[]
+) {
   stem = autoBracket(new RegExp(stem).source)
   optionalAppendages = sourcify(optionalAppendages)
 
@@ -81,21 +103,27 @@ function kleeneConcatSpaced(stem, ...optionalAppendages) {
   return concat(stem, toConcat)
 }
 
-function whole(operand) {
+/** Add ^ and $ markers either side of a regular expression so that it must match an entire string. */
+function whole(operand:RegExp|string) {
   operand = autoBracket(new RegExp(operand).source)
   return new RegExp('^'+operand+'$')
 }
-function initial(operand) {
+
+/** Add a ^ marker at the beginning of a regular expression, so that it must match the beginning of a string. */
+function initial(operand:RegExp|string) {
   operand = autoBracket(new RegExp(operand).source)
   return new RegExp('^'+operand)
 }
-function terminal(operand) {
+
+/** Add a $ marker at the end of a regular expression, so that it matches the end of a string. */
+function terminal(operand:RegExp|string) {
   operand = autoBracket(new RegExp(operand).source)
   return new RegExp(operand+'$')
 }
 
-function capture(operand, groupName) {
-  if(operand.constructor == RegExp)
+/** Surround a regular expression with capturing parentheses, optionally specifying a group name. */
+function capture(operand:RegExp|string, groupName:string) {
+  if(operand instanceof RegExp)
     operand = operand.source
 
   let name = groupName ? '?<'+groupName+'>' : ''
@@ -103,20 +131,20 @@ function capture(operand, groupName) {
   return new RegExp('(' + name + operand + ')')
 }
 
-module.exports = {
-  concat: concat,
-  concatSpaced: concatSpaced,
-  or: or,
-  optional: optional,
-  kleene: kleene,
-  kleeneJoin: kleeneJoin,
-  kleeneSpaced: kleeneSpaced,
-  kleenePoliteList: kleenePoliteList,
-  kleeneConcatSpaced: kleeneConcatSpaced,
-  optionalConcatSpaced: optionalConcatSpaced,
-  autoBracket: autoBracket,
-  whole: whole,
-  initial: initial,
-  terminal: terminal,
-  capture: capture,
+export {
+  concat, 
+  concatSpaced,
+  or,
+  optional,
+  kleene,
+  kleeneJoin,
+  kleeneSpaced,
+  kleenePoliteList,
+  kleeneConcatSpaced,
+  optionalConcatSpaced,
+  autoBracket,
+  whole,
+  initial,
+  terminal,
+  capture,
 }

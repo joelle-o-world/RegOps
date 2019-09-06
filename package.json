@@ -2,9 +2,9 @@
   "name": "regops",
   "version": "1.1.1",
   "description": "A small javascript library for performing operations on regular expressions",
-  "main": "regops.js",
+  "main": "dist/regops.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/joelyjoel/RegOps/issues"
   },
-  "homepage": "https://github.com/joelyjoel/RegOps#readme"
+  "homepage": "https://github.com/joelyjoel/RegOps#readme",
+  "devDependencies": {
+    "typedoc": "^0.15.0",
+    "typedoc-plugin-markdown": "^2.1.10"
+  }
 }
