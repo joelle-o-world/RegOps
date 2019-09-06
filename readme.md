@@ -6,26 +6,6 @@ Perform basic operations to manipulate regular expressions.
  
 ## Index
 
-### Functions
-
-* [autoBracket](_regops_.md#autobracket)
-* [bracket](_regops_.md#bracket)
-* [capture](_regops_.md#capture)
-* [concat](_regops_.md#concat)
-* [concatSpaced](_regops_.md#concatspaced)
-* [initial](_regops_.md#initial)
-* [kleene](_regops_.md#kleene)
-* [kleeneConcatSpaced](_regops_.md#kleeneconcatspaced)
-* [kleeneJoin](_regops_.md#kleenejoin)
-* [kleenePoliteList](_regops_.md#kleenepolitelist)
-* [kleeneSpaced](_regops_.md#kleenespaced)
-* [optional](_regops_.md#optional)
-* [optionalConcatSpaced](_regops_.md#optionalconcatspaced)
-* [or](_regops_.md#or)
-* [sourcify](_regops_.md#sourcify)
-* [terminal](_regops_.md#terminal)
-* [whole](_regops_.md#whole)
-
 ## Functions
 
 ###  autoBracket
