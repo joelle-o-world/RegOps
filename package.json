@@ -4,7 +4,7 @@
   "description": "A small javascript library for performing operations on regular expressions",
   "main": "dist/regops.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
