@@ -3,8 +3,6 @@ Perform basic operations to manipulate regular expressions.
 
 ## Install
 ```npm i regops```
- 
-## Index
 
 ## Functions
 

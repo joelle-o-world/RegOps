@@ -1,6 +1,6 @@
 {
   "name": "regops",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A small javascript library for performing operations on regular expressions",
   "main": "dist/regops.js",
   "types": "dist/regops.d.ts",
