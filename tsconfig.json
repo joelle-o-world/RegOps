@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
       "outDir": "./dist",
-      "allowJs": true,
       "target": "es5",
       "noImplicitAny": true,
       "downlevelIteration": true,
-      "strictNullChecks": true
+      "strictNullChecks": true,
+      "declaration": true
   },
   "include": [
       "./src/**/*"
